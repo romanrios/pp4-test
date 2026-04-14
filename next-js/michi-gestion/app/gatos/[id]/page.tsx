@@ -1,26 +1,32 @@
+import BotonAdoptar from "@/components/BotonAdoptar";
 import { gatos } from "@/lib/gatos";
 
-// 1. Convertimos la función en async
 export default async function GatoDetalle({
   params,
 }: {
-  params: Promise<{ id: string }>; // 2. Definimos params como una Promesa
+  params: Promise<{ id: string }>;
 }) {
-  // 3. Esperamos a que los params se resuelvan
   const { id } = await params;
 
-  // 4. Buscamos al gato usando el ID ya resuelto
   const gato = gatos.find((g) => g.id === Number(id));
 
   if (!gato) {
-    return <p>Gato no encontrado (ID: {id})</p>;
+    return <p>Gato no encontrado</p>;
   }
 
   return (
-    <main>
-      <h1>{gato.nombre}</h1>
-      <p>Edad: {gato.edad}</p>
-      <p>{gato.descripcion}</p>
+    <main className="p-6 flex justify-center">
+      <div className="max-w-md w-full border rounded-2xl p-6 shadow bg-white">
+        <h1 className="text-2xl font-bold mb-2">{gato.nombre}</h1>
+
+        <p className="text-gray-600">Edad: {gato.edad} años</p>
+
+        <p className="mt-4 text-gray-700">{gato.descripcion}</p>
+
+        <div className="mt-6">
+          <BotonAdoptar adoptadoInicial={gato.adoptado} />
+        </div>
+      </div>
     </main>
   );
 }
